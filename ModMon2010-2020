@@ -1,0 +1,104 @@
+library(ggplot2)
+library(tidyverse)
+library(gridExtra)
+
+dates2<-as.Date(alldata$Date, "%m/%d/%Y")
+
+#2000-2010
+
+p1 <-ggplot(alldata, aes(x=dates2, y = Chla, color = Station)) + geom_line(size=1) +
+  theme(panel.background = element_blank()) + 
+  scale_color_brewer(palette = "YlGn") +
+  scale_y_continuous(name = "Chla (ug/L)") + 
+  geom_vline (xintercept= hdates, alpha = 0.3) + 
+  scale_x_date(limits = as.Date(c("2000-01-01", "2009-12-31"))) + 
+  theme (axis.title.x=element_blank ())+ 
+  theme (legend.position = "none") + 
+  theme (axis.title.x=element_blank (), axis.text.x=element_blank (), axis.ticks.x=element_blank ()) 
+
+
+p2 <-ggplot(alldata, aes(x=dates2, y = PPR/Chla, color = Station)) + geom_line(size=1) +
+  theme(panel.background = element_blank()) + 
+  scale_color_brewer(palette = "YlGn") +
+  scale_y_continuous(name = "PPR/Chla (mg C m-3 h-1)/(ug/L)") + 
+  geom_vline (xintercept= hdates, alpha = 0.3) + 
+  scale_x_date(limits = as.Date(c("2000-01-01", "2009-12-31"))) + 
+  theme (axis.title.x=element_blank ())+ 
+  theme (legend.position = "none") + 
+  theme (axis.title.x=element_blank (), axis.text.x=element_blank (), axis.ticks.x=element_blank ()) 
+
+
+p3 <-ggplot(alldata, aes(x=dates2, y = Salinity, color = Station)) + geom_line(size=1) +
+  theme(panel.background = element_blank()) + 
+  scale_color_brewer(palette = "YlGn") +
+  scale_y_continuous(name = "Salinity (ppt)") + 
+  geom_vline (xintercept= hdates, alpha = 0.3) + 
+  scale_x_date(limits = as.Date(c("2000-01-01", "2009-12-31"))) + 
+  theme (axis.title.x=element_blank ())+ 
+  theme (legend.position = "none") + 
+  theme (axis.title.x=element_blank (), axis.text.x=element_blank (), axis.ticks.x=element_blank ()) 
+
+
+p4 <-ggplot(alldata, aes(x=dates2, y = Temp, color = Station)) + geom_line(size=1) +
+  theme(panel.background = element_blank()) + 
+  scale_color_brewer(palette = "YlGn") +
+  scale_y_continuous(name = "Temp (°C )") + 
+  geom_vline (xintercept= hdates, alpha = 0.3) + 
+  scale_x_date(limits = as.Date(c("2000-01-01", "2009-12-31"))) + 
+  theme (axis.title.x=element_blank ()) + 
+  theme (legend.position = "bottom")
+
+
+grid.arrange(p1,p2,p3,p4,ncol=1)
+
+#########################################################################
+
+#2010-2021
+
+
+p5 <- ggplot(alldata, aes(x=dates2, y = Chla, color = Station)) + geom_line(size=1) +
+  theme(panel.background = element_blank()) + 
+  scale_color_brewer(palette = "YlGn") +
+  scale_y_continuous(name = "Chla (ug/L)") +
+  geom_vline (xintercept= hdates, alpha = 0.3) + 
+  scale_x_date(limits = as.Date(c("2010-01-01", "2020-12-31"))) + 
+  theme (axis.title.x=element_blank ())+ 
+  theme (legend.position = "none") + 
+  theme (axis.title.x=element_blank (), axis.text.x=element_blank (), axis.ticks.x=element_blank ()) 
+
+
+
+p6 <- ggplot(alldata, aes(x=dates2, y = PPR/Chla, color = Station)) + geom_line(size=1) +
+  theme(panel.background = element_blank()) + 
+  scale_color_brewer(palette = "YlGn") +
+  scale_y_continuous(name = "PPR/Chla (mg C m-3 h-1)/(ug/L)") +
+  geom_vline (xintercept= hdates, alpha = 0.3) + 
+  scale_x_date(limits = as.Date(c("2010-01-01", "2020-12-31"))) + 
+  theme (axis.title.x=element_blank ())+ 
+  theme (legend.position = "none") + 
+  theme (axis.title.x=element_blank (), axis.text.x=element_blank (), axis.ticks.x=element_blank ()) 
+
+
+
+p7 <- ggplot(alldata, aes(x=dates2, y = Salinity, color = Station)) + geom_line(size=1) +
+  theme(panel.background = element_blank()) + 
+  scale_color_brewer(palette = "YlGn") +
+  scale_y_continuous(name = "Salinity (ppt)") +
+  geom_vline (xintercept= hdates, alpha = 0.3) + 
+  scale_x_date(limits = as.Date(c("2010-01-01", "2020-12-31"))) + 
+  theme (axis.title.x=element_blank ())+ 
+  theme (legend.position = "none") + 
+  theme (axis.title.x=element_blank (), axis.text.x=element_blank (), axis.ticks.x=element_blank ()) 
+
+
+p8 <- ggplot(alldata, aes(x=dates2, y = Temp, color = Station)) + geom_line(size=1) +
+  theme(panel.background = element_blank()) + 
+  scale_color_brewer(palette = "YlGn") +
+  scale_y_continuous(name = "Temp (°C )") +
+  geom_vline (xintercept= hdates, alpha = 0.3) + 
+  scale_x_date(limits = as.Date(c("2010-01-01", "2020-12-31"))) + 
+  theme (axis.title.x=element_blank ()) + 
+  theme (legend.position = "none")
+
+
+grid.arrange(p5,p6,p7,p8,ncol=1)
