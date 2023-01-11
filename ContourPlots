@@ -1,0 +1,163 @@
+library(akima)
+library(ggplot2)
+library("patchwork")
+
+#Contour plots for monitoring data - variables = Distance, Depth and Parameter(Chlorophyll, Temp, pH, etc.)
+csv<-read.csv(file.choose())
+
+
+#Chlorophyll
+fld1 <- with(csv, interp(x = Distance, y = Depth, z = Chlorophyll))
+gdat1 <- interp2xyz(fld1, data.frame=TRUE)
+
+p1 <-ggplot(gdat1) + 
+  aes(x = x, y = y, z = z, fill =z) + 
+  geom_tile(aes(fill=z)) + 
+  coord_equal() +
+  scale_y_reverse() + 
+  stat_contour(aes(fill=..level..), geom="polygon", binwidth=0.005) + 
+  geom_contour(color="white", alpha=0.5) +
+  scale_fill_distiller(palette="Spectral", na.value="black") + 
+  labs(x="Distance from NR 180 (km)", y="", fill ="Chla (ug/L)") + 
+  theme_bw()+ theme (axis.title.x=element_blank (), axis.text.x=element_blank (), axis.ticks.x=element_blank ()) + 
+  theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_blank())
+
+#DO
+fld2 <- with(csv, interp(x = Distance, y = Depth, z = DO))
+gdat2 <- interp2xyz(fld2, data.frame=TRUE)
+
+p2 <-ggplot(gdat2) + 
+  aes(x = x, y = y, z = z, fill =z) + 
+  geom_tile(aes(fill=z)) + 
+  coord_equal() +
+  scale_y_reverse() + 
+  stat_contour(aes(fill=..level..), geom="polygon", binwidth=0.005) + 
+  geom_contour(color="white", alpha=0.5) +
+  scale_fill_distiller(palette="Spectral", na.value="black") + 
+  labs(x="Distance from NR 180 (km)", y="", fill="DO (mg/L)") + 
+  theme_bw()+ theme (axis.title.x=element_blank (), axis.text.x=element_blank (), axis.ticks.x=element_blank ()) + 
+  theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_blank())
+
+#Turbidity
+fld3 <- with(csv, interp(x = Distance, y = Depth, z = Turbidity))
+gdat3 <- interp2xyz(fld3, data.frame=TRUE)
+
+p3 <-ggplot(gdat3) + 
+  aes(x = x, y = y, z = z, fill =z) + 
+  geom_tile(aes(fill=z)) + 
+  coord_equal() +
+  scale_y_reverse() + 
+  stat_contour(aes(fill=..level..), geom="polygon", binwidth=0.005) + 
+  geom_contour(color="white", alpha=0.5) +
+  scale_fill_distiller(palette="Spectral", na.value="black") + 
+  labs(x="Distance from NR 180 (km)", y="Depth(m)", fill="Turb(NTU)") + 
+  theme_bw()+ theme (axis.title.x=element_blank (), axis.text.x=element_blank (), axis.ticks.x=element_blank ()) + 
+  theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_blank())
+
+
+#Salinity
+fld4 <- with(csv, interp(x = Distance, y = Depth, z = Salinity))
+gdat4 <- interp2xyz(fld4, data.frame=TRUE)
+
+p4 <-ggplot(gdat4) + 
+  aes(x = x, y = y, z = z, fill =z) + 
+  geom_tile(aes(fill=z)) + 
+  coord_equal() +
+  scale_y_reverse() + 
+  stat_contour(aes(fill=..level..), geom="polygon", binwidth=0.005) + 
+  geom_contour(color="white", alpha=0.5) +
+  scale_fill_distiller(palette="Spectral", na.value="black") + 
+  labs(x="Distance from NR 180 (km)", y="", fill="Salinity") + 
+  theme_bw()+ theme (axis.title.x=element_blank (), axis.text.x=element_blank (), axis.ticks.x=element_blank ()) + 
+  theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_blank())
+
+#Temp
+fld5 <- with(csv, interp(x = Distance, y = Depth, z = Temp))
+gdat5 <- interp2xyz(fld5, data.frame=TRUE)
+
+p5 <-ggplot(gdat5) + 
+  aes(x = x, y = y, z = z, fill =z) + 
+  geom_tile(aes(fill=z)) + 
+  coord_equal() +
+  scale_y_reverse() + 
+  stat_contour(aes(fill=..level..), geom="polygon", binwidth=0.005) + 
+  geom_contour(color="white", alpha=0.5) +
+  scale_fill_distiller(palette="Spectral", na.value="black") + 
+  labs(x="Distance from NR 180 (km)", y="", fill="Temp (°C)") + 
+  theme_bw()+ theme (axis.title.x=element_blank (), axis.text.x=element_blank (), axis.ticks.x=element_blank ()) + 
+  theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_blank())
+
+#pH
+fld6 <- with(csv, interp(x = Distance, y = Depth, z = pH))
+gdat6 <- interp2xyz(fld6, data.frame=TRUE)
+
+p6 <-ggplot(gdat6) + 
+  aes(x = x, y = y, z = z, fill =z) + 
+  geom_tile(aes(fill=z)) + 
+  coord_equal() +
+  scale_y_reverse() + 
+  stat_contour(aes(fill=..level..), geom="polygon", binwidth=0.005) + 
+  geom_contour(color="white", alpha=0.5) +
+  labs(x="Distance from NR 180 (km)", y="", fill="pH", caption = "October 2018") + 
+  scale_fill_distiller(palette="Spectral", na.value="black") + 
+  theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_blank())
+
+  
+oct2018<-p1/p2/p3/p4/p5/p6
+
+
+##############################################################################################################################
+#Contour plots for monitoring nutrient data
+
+csv2<-read.csv(file.choose())
+
+
+#NH4
+fld8 <- with(csv2, interp(x = Distance, y = Depth, z = NH4))
+gdat8 <- interp2xyz(fld8, data.frame=TRUE)
+
+p8 <-ggplot(gdat8) + 
+  aes(x = x, y = y, z = z, fill =z) + 
+  geom_tile(aes(fill=z)) + 
+  coord_equal() +
+  scale_y_reverse() + 
+  stat_contour(aes(fill=..level..), geom="polygon", binwidth=0.005) + 
+  geom_contour(color="white", alpha=0.5) +
+  scale_fill_distiller(palette="Spectral", na.value="black") + 
+  labs(x="Distance from NR 180 (km)", y="", fill="NH4(ug/L)") + 
+  theme_bw()+ theme (axis.title.x=element_blank (), axis.text.x=element_blank (), axis.ticks.x=element_blank ()) + 
+  theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_blank())
+
+#TDN
+fld9 <- with(csv2, interp(x = Distance, y = Depth, z = TDN))
+gdat9 <- interp2xyz(fld9, data.frame=TRUE)
+
+p9 <-ggplot(gdat9) + 
+  aes(x = x, y = y, z = z, fill =z) + 
+  geom_tile(aes(fill=z)) + 
+  coord_equal() +
+  scale_y_reverse() + 
+  stat_contour(aes(fill=..level..), geom="polygon", binwidth=0.005) + 
+  geom_contour(color="white", alpha=0.5) +
+  scale_fill_distiller(palette="Spectral", na.value="black") + 
+  labs(x="Distance from NR 180 (km)", y="Depth(m)", fill="TDN(ug/L)") + 
+  theme_bw()+ theme (axis.title.x=element_blank (), axis.text.x=element_blank (), axis.ticks.x=element_blank ()) + 
+  theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_blank())
+
+#PO4
+fld10 <- with(csv2, interp(x = Distance, y = Depth, z = PO4))
+gdat10 <- interp2xyz(fld10, data.frame=TRUE)
+
+p10 <-ggplot(gdat10) + 
+  aes(x = x, y = y, z = z, fill =z) + 
+  geom_tile(aes(fill=z)) + 
+  coord_equal() +
+  scale_y_reverse() + 
+  stat_contour(aes(fill=..level..), geom="polygon", binwidth=0.005) + 
+  geom_contour(color="white", alpha=0.5) +
+  labs(x="Distance from NR 180 (km)", y="", fill="PO4(ug/L)", caption = "November 2018") + 
+  scale_fill_distiller(palette="Spectral", na.value="black") + 
+  theme_bw()+ theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank(),panel.border = element_blank())
+
+#arranging graphs with patchwork, can also be done with gridarrange
+p8/p9/p10
