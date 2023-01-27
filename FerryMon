@@ -1,0 +1,33 @@
+library(ggplot2)
+
+ferrydaily<-read.csv(file.choose())
+Days<-as.Date(ferrydaily$Date, "%m/%d/%Y")
+
+
+#Neuse River Daily Average FerryMon Data - Chlorophyll, Salinity, Temperature and Turbidity
+#including large storm events 
+
+ggplot(ferrydaily,aes(x=Days)) + geom_line(aes(y=Chlorophyll, color="Chlorophyll (ug/L)"),size=1) +
+  geom_line(aes(y= Temp, color="Temperature (°C )"), size = 1) +  
+  geom_line(aes(y= Salinity, color="Salinity (ppt)"), size = 1) + 
+  geom_line( aes(y=Turbidity / 6, color="Turbidity (NTU)"), size=1) +
+  scale_y_continuous(name="(ug/L)-(ppt)-(°C )", sec.axis = sec_axis(~.*6, name="(NTU)")) +
+  scale_x_date(date_breaks = "1 year",limits = as.Date(c("2019-06-1", "2022-12-31")))+
+  geom_vline (xintercept= hdates, alpha = 0.5) + 
+  theme(panel.background = element_blank()) + 
+  theme (legend.position = "right") + labs(color="")
+
+#####################################################################################
+
+#Neuse River Monthly Average Data 
+ferrymonthly<-read.csv(file.choose())
+Months<-as.Date(ferrymonthly$Date, "%m/%d/%Y")
+
+ggplot(ferrymonthly,aes(x=Month)) + geom_line(aes(y=Chlorophyll, color="Chlorophyll"),size=1) +
+  geom_line(aes(y= Temp, color="Temperature (°C )"), size = 1) +  
+  geom_line(aes(y= Salinity, color="Salinity (ppt)"), size = 1) + 
+  geom_line( aes(y=Turbidity / 6, color="Turbidity (NTU)"), size=1) +
+  scale_y_continuous(name="(ug/L)-(ppt)-(°C )", sec.axis = sec_axis(~.*6, name="(NTU)")) +
+  theme(panel.background = element_blank()) + 
+  theme (legend.position = "right") + labs(color="")
+
